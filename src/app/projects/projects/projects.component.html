@@ -1,0 +1,10 @@
+<h2>{{ header }}</h2>
+<p>{{ description | uppercase }}</p>
+<section>
+  <ul>
+    <li *ngFor="let proyect of liProyects">
+      <a routerLink="viewer-project/{{ proyect.id }}" class="button">{{ proyect.name }}</a>
+    </li>
+  </ul>
+  <button routerLink="new-project/" class="primary">Añadir Nuevo Proyecto</button>
+</section>

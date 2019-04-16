@@ -1,0 +1,18 @@
+<form>
+  <legend>Añada un nuevo proyecto:</legend>
+  <fieldset>
+    <div class="input-group vertical">
+      <label for="projectname">Descripción</label>
+      <input type="text" id="projectname" [(ngModel)]="nameNewProject" name="nameNewProject" placeholder="Descripción" />
+    </div>
+    <input type="button" (click)="guardarProyecto()" class="primary" value="Guardar" />
+  </fieldset>
+  <fieldset>
+    <ul *ngIf="numProjects > 4; else empty">
+      <li *ngFor="let p of projects">
+        <span>{{ p.name }}</span>
+      </li>
+    </ul>
+    <ng-template #empty> <i>No se ha introducido ningún proyecto nuevo</i> </ng-template>
+  </fieldset>
+</form>
