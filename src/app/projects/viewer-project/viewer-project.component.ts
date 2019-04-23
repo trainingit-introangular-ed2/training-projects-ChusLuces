@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { ProjectsService } from '../projects.service';
 
 @Component({
   selector: 'app-viewer-project',
@@ -8,15 +8,14 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./viewer-project.component.css']
 })
 export class ViewerProjectComponent implements OnInit {
-  public projectname = '';
-  public projectId = 0;
-  constructor(activateRoute: ActivatedRoute) {
+  public projectname: string;
+  public projectId: number;
+
+  constructor(activateRoute: ActivatedRoute, serviceProject: ProjectsService) {
     this.projectId = activateRoute.snapshot.params['id'];
-    this.getProjectById();
+    //console.log(this.projectId);
+    this.projectname = serviceProject.getProjectById(this.projectId);
   }
-  public getProjectById() {
-    // tslint:disable-next-line: triple-equals
-    this.projectname = environment.projects.find(x => x.id == this.projectId).name;
-  }
+
   ngOnInit() {}
 }

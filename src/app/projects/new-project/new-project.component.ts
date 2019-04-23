@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { ProjectsService } from '../projects.service';
 
 @Component({
   selector: 'app-new-project',
@@ -8,19 +8,16 @@ import { environment } from '../../../environments/environment';
 })
 export class NewProjectComponent implements OnInit {
   public nameNewProject: string;
-  public numProjects = environment.projects.length;
-  constructor() {}
-  public projects = environment.projects;
+  public numProjects: number;
+  public projects: { id: number; name: string }[];
+
+  constructor(private projectsService: ProjectsService) {
+    this.projects = this.projectsService.GetListOfProjects;
+    this.numProjects = this.projectsService.getNumberOfProjects();
+  }
 
   ngOnInit() {}
-
-  public guardarProyecto() {
-    const p = { id: environment.projects.length + 1, name: this.nameNewProject };
-    console.log('guardar' + p);
-    environment.projects.push(p);
-    this.limpiarConsola();
-  }
-  public limpiarConsola() {
-    this.nameNewProject = '';
+  public guardarProyecto(nameProject: string) {
+    this.projectsService.guardarProyecto(nameProject);
   }
 }
