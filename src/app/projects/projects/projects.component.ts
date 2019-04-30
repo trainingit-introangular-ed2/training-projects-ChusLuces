@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
-
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -15,7 +14,6 @@ export class ProjectsComponent implements OnInit {
   public project = { environment: 0 };
   public numProjects = environment.projects.length;
   constructor() {}
-
   // tslint:disable-next-line: no-unused-expression
   ngOnInit() {}
 }
