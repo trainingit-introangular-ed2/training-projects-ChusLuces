@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 import { ProjectsService } from '../projects.service';
 
 @Component({
@@ -14,7 +15,11 @@ export class ViewerProjectComponent implements OnInit {
   constructor(activateRoute: ActivatedRoute, serviceProject: ProjectsService) {
     this.projectId = activateRoute.snapshot.params['id'];
     //console.log(this.projectId);
-    this.projectname = serviceProject.getProjectById(this.projectId);
+    if (isNullOrUndefined(serviceProject.getProjectById(this.projectId))) {
+      this.projectname = 'Actualmente no existe un proyecto con el identificador solicitado.';
+    } else {
+      this.projectname = serviceProject.getProjectById(this.projectId).name;
+    }
   }
 
   ngOnInit() {}

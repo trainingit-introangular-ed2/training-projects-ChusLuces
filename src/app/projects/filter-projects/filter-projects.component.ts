@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ProjectsService } from '../projects.service';
+import { project, ProjectsService } from '../projects.service';
 
 @Component({
   selector: 'app-filter-projects',
@@ -12,12 +12,17 @@ export class FilterProjectsComponent implements OnInit {
   public nameProject: string;
 
   constructor(private service: ProjectsService) {}
-  public getProjectById(idProject: number) {
-    if (isNullOrUndefined(this.service.getProjectById(idProject))) {
-      this.nameProject = 'No existe un proyecto para este identificador';
-    } else {
-      this.nameProject = this.service.getProjectById(idProject);
-    }
+
+  public getProjectById(idbuscado: number) {
+    let project: project;
+    this.service.myListOfProjects$.subscribe(x => {
+      project = x.find(y => y.id === idbuscado);
+      if (isNullOrUndefined(project)) {
+        this.nameProject = 'En este momento no existe el identificador buscado.';
+      } else {
+        this.nameProject = project.name;
+      }
+    });
   }
   ngOnInit() {}
 }

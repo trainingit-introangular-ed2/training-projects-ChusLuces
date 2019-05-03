@@ -3,7 +3,7 @@
   <fieldset>
     <div class="input-group vertical">
       <label for="idProject">Introduzca el identificador:</label>
-      <input type="text" id="idProject" [(ngModel)]="this.idProject" name="idProject" placeholder="Identificador" />
+      <input type="number" id="idProject" [(ngModel)]="this.idProject" name="idProject" placeholder="Identificador" />
       <label id="nameProject">{{ nameProject }}</label>
     </div>
     <input type="button" (click)="getProjectById.emit(idProject)" class="primary" value="Buscar" />

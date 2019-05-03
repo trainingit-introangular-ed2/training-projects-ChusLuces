@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectsService } from '../projects.service';
+import { project, ProjectsService } from '../projects.service';
 
 @Component({
   selector: 'app-new-project',
@@ -9,15 +9,19 @@ import { ProjectsService } from '../projects.service';
 export class NewProjectComponent implements OnInit {
   public nameNewProject: string;
   public numProjects: number;
-  public projects: { id: number; name: string }[];
+  public projects: project[];
 
   constructor(private projectsService: ProjectsService) {
-    this.projects = this.projectsService.GetListOfProjects;
-    this.numProjects = this.projectsService.getNumberOfProjects();
+    this.projectsService.myListOfProjects$.subscribe(x => (this.numProjects = x.length));
+    this.projectsService.myListOfProjects$.subscribe(x => (this.projects = x));
   }
 
   ngOnInit() {}
   public guardarProyecto(nameProject: string) {
     this.projectsService.guardarProyecto(nameProject);
+    //vaciamos el input
+    this.nameNewProject = '';
+    //actualizamos la lista
+    this.projectsService.myListOfProjects$.subscribe(x => (this.projects = x));
   }
 }

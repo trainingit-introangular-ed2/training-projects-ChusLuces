@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { project } from '../projects.service';
 
 @Component({
   selector: 'app-new-project-form',
@@ -8,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class NewProjectFormComponent implements OnInit {
   @Input() public nameNewProject: string;
   @Input() public numProjects: number;
-  @Input() public projects: { id: number; name: string }[];
+  @Input() public projects: project[];
   @Output() public guardarProyecto = new EventEmitter<string>();
 
   constructor() {}

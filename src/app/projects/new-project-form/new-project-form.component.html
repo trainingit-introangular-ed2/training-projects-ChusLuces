@@ -8,7 +8,7 @@
     <input type="button" (click)="guardarProyecto.emit(nameNewProject)" class="primary" value="Guardar" />
   </fieldset>
   <fieldset>
-    <ul *ngIf="numProjects > 4; then empty">
+    <ul>
       <li *ngFor="let p of projects">
         <span>{{ p.name }}</span>
       </li>

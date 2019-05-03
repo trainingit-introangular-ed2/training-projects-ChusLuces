@@ -15,7 +15,9 @@ export class ProjectsListComponent implements OnInit {
   constructor(private serviceProjects: ProjectsService) {}
 
   ngOnInit() {
-    this.liProyects = this.serviceProjects.GetListOfProjects;
-    this.numProjects = this.serviceProjects.getNumberOfProjects();
+    // this.liProyects = this.serviceProjects.GetListOfProjects;
+    // this.numProjects = this.serviceProjects.getNumberOfProjects();
+    // this.projectsService.myListOfProjects$.subscribe(x => (this.numProjects = x.length));
+    // this.projectsService.myListOfProjects$.subscribe(x => (this.projects = x));
   }
 }

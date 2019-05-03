@@ -19,6 +19,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {}
 
   public projectsNumber() {
-    this.numProjects = this.projectsService.getNumberOfProjects();
+    this.projectsService.myListOfProjects$.subscribe(x => (this.numProjects = x.length));
   }
 }

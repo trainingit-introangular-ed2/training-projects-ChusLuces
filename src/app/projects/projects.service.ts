@@ -1,52 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isNullOrUndefined } from 'util';
-import { environment } from '../enviroment/enviroment';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
   private urlapi = 'https://api-base.herokuapp.com/api/pub/projects';
-  public Projects: any; /* colección de objectos projecto */
+  public myListOfProjects$: Observable<project[]> = null; /* colección de objectos projecto */
+  public Projects$: Observable<any> = null;
   public GetListOfProjects: any[]; /*lista de objetos proyecto*/
 
   constructor(private httpclient: HttpClient) {
-    this.getListOfProyectsByApi();
+    //this.getListOfProyectsByApi();
+    this.getCurrentProjects();
+  }
+  public getNumberOfProjects() {}
+  public getCurrentProjects() {
+    this.Projects$ = this.httpclient.get(this.urlapi);
+    this.myListOfProjects$ = this.Projects$.pipe(
+      tap(d => console.log(d)),
+      map(this.transformProjectsData),
+      tap(t => console.log(t))
+    );
   }
 
   public guardarProyecto(nameNewProject: string) {
-    const p = { id: this.getNumberOfProjects() + 1, name: nameNewProject };
+    const p = { id: Math.floor(Math.random() * 100 + 1), name: nameNewProject };
     console.log('guardar' + p.name);
     console.log('guardar' + p.id);
     this.postProjects(p);
   }
   public getProjectById(projectId: number) {
+    let proBuscado: any;
     // tslint:disable-next-line: triple-equals
-    if (isNullOrUndefined(this.Projects.find(x => x.id == projectId))) {
-      return 'El proyecto buscado no existe en el sistema';
-    } else {
-      // tslint:disable-next-line: triple-equals
-      return environment.projects.find(x => x.id == projectId).name;
-    }
+    this.myListOfProjects$.subscribe(x => (proBuscado = x.find(y => y.id === projectId)));
+    return proBuscado;
   }
-  public getNumberOfProjects(): number {
-    this.getListOfProyectsByApi();
-    console.log('obten numprojects');
 
-    if (this.Projects == null || this.Projects === undefined) {
-      return 0;
-    } else {
-      return this.Projects.length;
-    }
-  }
-  private getListOfProyectsByApi() {
-    this.httpclient.get(this.urlapi).subscribe(apiData => {
-      this.GetListOfProjects = this.transformProjectsData(apiData);
-      console.log(this.Projects);
-    });
-  }
-  private transformProjectsData(projectsData: any): any[] {
+  private transformProjectsData(projectsData) {
     if (projectsData != null) {
       return Object.keys(projectsData).map(key => ({
         id: projectsData[key].id,
@@ -60,4 +53,9 @@ export class ProjectsService {
   public postProjects(p: any) {
     this.httpclient.post(this.urlapi, p).subscribe();
   }
+}
+// tslint:disable-next-line: class-name
+export interface project {
+  id: number;
+  name: string;
 }
