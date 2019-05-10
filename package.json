@@ -11,7 +11,8 @@
     "push": "git add * && git commit -m 'pub' && git push",
     "start:prod": "npm run build:prod && npm run http-server",
     "start": "ng serve --aot -o --port 4270",
-    "test": "ng test"
+    "test": "ng test",
+    "http-server": "http-server ./dist/training-projects/ -c-1 -p4271 -a localhost -o"
   },
   "private": true,
   "dependencies": {
