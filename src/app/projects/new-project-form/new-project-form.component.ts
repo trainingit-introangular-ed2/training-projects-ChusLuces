@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { project } from '../projects.service';
 
 @Component({
@@ -7,12 +8,29 @@ import { project } from '../projects.service';
   styleUrls: ['./new-project-form.component.css']
 })
 export class NewProjectFormComponent implements OnInit {
+  public formGroup: FormGroup;
   @Input() public nameNewProject: string;
   @Input() public numProjects: number;
   @Input() public projects: project[];
   @Output() public guardarProyecto = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.buildForm();
+  }
+  private buildForm() {
+    const minimoNombre = 1;
+    this.formGroup = this.formBuilder.group({
+      projectname: [null, [Validators.required, Validators.minLength(minimoNombre)]]
+    });
+  }
+  public getError(controlName: string): string {
+    let error = '';
+    const control = this.formGroup.get(controlName);
+    if (control.touched && control.errors != null) {
+      error = JSON.stringify(control.errors);
+    }
+    return error;
+  }
 }

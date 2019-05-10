@@ -1,11 +1,18 @@
-<form>
+<form [formGroup]="formGroup">
   <legend>Añada un nuevo proyecto:</legend>
   <fieldset>
     <div class="input-group vertical">
       <label for="projectname">Descripción</label>
-      <input type="text" id="projectname" [(ngModel)]="nameNewProject" name="nameNewProject" placeholder="Descripción" />
+      <input type="text" id="projectname" formControlName="projectname" name="projectname" placeholder="Descripción" />
+      <br />
     </div>
-    <input type="button" (click)="guardarProyecto.emit(nameNewProject)" class="primary" value="Guardar" />
+    <input
+      type="button"
+      [disabled]="formGroup.invalid"
+      (click)="guardarProyecto.emit(formGroup.get('projectname').value)"
+      class="primary"
+      value="Guardar"
+    />
   </fieldset>
   <fieldset>
     <ul>
